@@ -1,4 +1,4 @@
-# ---------------------------- IMPORTiNG DEPENDENCIES ---------------------------- #
+# ---------------------------- IMPORTING DEPENDENCIES ---------------------------- #
 
 import base64
 import io
