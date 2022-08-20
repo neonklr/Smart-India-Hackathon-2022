@@ -1,7 +1,7 @@
 # ---------------------------- IMPORTiNG DEPENDENCIES ---------------------------- #
 
 from transformers import Wav2Vec2ForCTC, Wav2Vec2Processor
-import constants
+from . import constants
 import numpy as np
 
 # ---------------------------------- MAIN CODE ----------------------------------- #
@@ -20,11 +20,13 @@ def load_model(model_path):
     try:
         model = Wav2Vec2ForCTC.from_pretrained(model_path)
     except Exception as e:
+        print("Model Error : ", e)
         model = False
 
     try:
         processor = Wav2Vec2Processor.from_pretrained(model_path)
     except Exception as e:
+        print("Processor Error", e)
         processor = False
 
     return model, processor
@@ -58,6 +60,6 @@ def predict(audio_array, audio_rate, model_id):
     model, processor = load_model(model_path)
 
     if not model or not processor:
-        return {"transcribed_text": None, "error": f"Error loading model or processor or both with code = M{int(model)}P{int(processor)}"}
+        return {"transcribed_text": None, "error": f"Error loading model or processor or both with code = M{str(model)[:15]} P{str(processor)[:15]}"}
 
     return _predict(model, processor, audio_array, audio_rate)

@@ -1,3 +1,4 @@
+https://download.pytorch.org/whl/cpu/torch-1.9.1%2Bcpu-cp39-cp39-linux_x86_64.whl
 fastapi==0.79.0
 uvicorn==0.18.2
 python-multipart==0.0.5

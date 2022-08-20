@@ -4,7 +4,7 @@ import base64
 import io
 import soundfile as sf
 
-import model_runner
+from . import model_runner
 
 # ------------------------------- base64 functions ------------------------------- #
 
