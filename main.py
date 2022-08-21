@@ -1,15 +1,29 @@
-# ---------------------------- IMPORTiNG DEPENDENCIES ---------------------------- #
+# ---------------------------- IMPORTING DEPENDENCIES ---------------------------- #
 
 from fastapi import FastAPI, Form
+from fastapi.middleware.cors import CORSMiddleware
 
 import Scripts.predictor as predictor
-import Scripts.constants as constants
+from pydantic import BaseModel
 
-# ---------------------------------- MAIN CODE ----------------------------------- #
+
+# ----------------------------- CONFIGURING FASTAPI ------------------------------- #
 
 
 # initializing fastapi app
 app = FastAPI()
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
+# ---------------------------------- MAIN CODE ----------------------------------- #
 
 
 # root endpoint for server status check
@@ -19,10 +33,15 @@ def read_root():
 
 
 
+# Pydantic class for processing incoming requests
+class Filedata(BaseModel):
+    filedata: str = Form(...)
+
+
 # endpoint for audio upload and conversion to text using base64 data from frontend
 @app.post("/predict-base64/")
-def predict_base64_default(filedata: str = Form(...)):
-    return predictor.predict_base64(filedata, model_id=constants.DEFAULT_MODEL_ID)
+def predict_base64_default(filedata: Filedata):
+    return predictor.predict_base64(filedata.filedata)
 
 
 # endpoint for audio upload and conversion to text using base64 data from frontend

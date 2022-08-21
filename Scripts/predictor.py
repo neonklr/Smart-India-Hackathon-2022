@@ -1,10 +1,10 @@
 # ---------------------------- IMPORTING DEPENDENCIES ---------------------------- #
 
 import base64
-import io
-import soundfile as sf
+import librosa
 
 from . import model_runner
+from . import constants
 
 # ------------------------------- base64 functions ------------------------------- #
 
@@ -24,8 +24,7 @@ def get_base64_chunk(data):
 
 
 
-
-def predict_base64(base64_audio_data, model_id):
+def predict_base64(base64_audio_data, model_id=constants.DEFAULT_MODEL_ID):
 
     base64_audio_data = get_base64_chunk(base64_audio_data)
 
@@ -33,10 +32,12 @@ def predict_base64(base64_audio_data, model_id):
         return {"transcribed_text": None, "error": "Error: data is either not audio or not base64"}
 
     # you can write below bytes data directly to a file using 'wb' mode
-    decoded_audio_bytes = base64.decodebytes(base64_audio_data.encode('utf-8'))
+    decoded_audio_bytes = base64.decodebytes(base64_audio_data.encode())
 
-    # making bytes data file-like using io to be used by soundfile module
-    audio_array, audio_rate = sf.read(io.BytesIO(decoded_audio_bytes))
-    audio_array = audio_array.flatten()
+    # sending this audio bytes to cahe file to be used by librosa later
+    open(constants.CACHE_AUDIO_FILE_PATH, "wb").write(decoded_audio_bytes)
+
+    # decoding thee audio array and audio rate using librosa
+    audio_array, audio_rate = librosa.load(constants.CACHE_AUDIO_FILE_PATH, sr=constants.MODEL_AUDIO_RATE)
 
     return model_runner.predict(audio_array, audio_rate, model_id)
