@@ -33,10 +33,12 @@ def predict_base64(base64_audio_data, model_id=constants.DEFAULT_MODEL_ID):
     decoded_audio_bytes = base64.decodebytes(base64_audio_data.encode())
 
     # sending this audio bytes to cahe file to be used by librosa later
-    open(constants.CACHE_AUDIO_FILE_PATH, "wb").write(decoded_audio_bytes)
+    with open(constants.CACHE_AUDIO_FILE_PATH, "wb") as audio_file:
+        audio_file.write(decoded_audio_bytes)
 
     # decoding thee audio array and audio rate using librosa
-    audio_array, audio_rate = librosa.load(constants.CACHE_AUDIO_FILE_PATH, sr=constants.MODEL_AUDIO_RATE)
+    audio_array, audio_rate = librosa.load(
+        constants.CACHE_AUDIO_FILE_PATH, sr=constants.MODEL_AUDIO_RATE)
 
     return model_runner.predict(audio_array, audio_rate, model_id)
 

@@ -1,4 +1,4 @@
 __pycache__/*
 Scripts/__pycache__/*
-Models/vakyansh-wav2vec2-sanskrit-sam-60/*
-Models/vakyansh-wav2vec2-sanskrit-sam-60-quantized/*
+Models/vakyansh-wav2vec2-sanskrit-sam-60/
+Models/vakyansh-wav2vec2-sanskrit-sam-60-quantized/

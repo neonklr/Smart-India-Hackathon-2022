@@ -10,7 +10,7 @@ MODEL_PATHS = {
     'Quant-v2': 'Models/vakyansh-wav2vec2-sanskrit-sam-60-quantized/vakyansh-wav2vec2-sanskrit-sam-60_quant.pt'
 }
 
-DEFAULT_MODEL_ID = 'Quant-v2'
+DEFAULT_MODEL_ID = 'STT-v2'
 MODEL_AUDIO_RATE = 16000
 QUANTIZED_MODEL_HEADER = "Quant"
 BINARY_MODEL_HEADER = "STT"
