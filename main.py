@@ -46,8 +46,8 @@ def predict_base64_default(filedata: Filedata):
 
 # endpoint for audio upload and conversion to text using base64 data from frontend
 @app.post("/predict-base64/{model_id}/")
-def predict_base64(model_id: str, filedata: str = Form(...)):
-    return predictor.predict_base64(filedata, model_id)
+def predict_base64(model_id: str, filedata: Filedata):
+    return predictor.predict_base64(filedata.filedata, model_id)
 
 
 # endpoint for audio upload and conversion to text using array data from frontend
