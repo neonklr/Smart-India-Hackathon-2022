@@ -2,9 +2,9 @@
 
 from fastapi import FastAPI, Form
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 
 import Scripts.predictor as predictor
-from pydantic import BaseModel
 
 
 # ----------------------------- CONFIGURING FASTAPI ------------------------------- #
@@ -33,7 +33,7 @@ def read_root():
 
 
 
-# Pydantic class for processing incoming requests
+# Pydantic classes for processing incoming requests
 class Filedata(BaseModel):
     filedata: str = Form(...)
 
@@ -55,11 +55,10 @@ def predict_base64(model_id: str, filedata: Filedata):
 def predict_array(filedata: str = Form(...)):
     audio_array = eval(filedata)
     assert isinstance(audio_array, list)
-
-    return {"audio_array": "done"}
+    return {"status" : "please use base64 format to use this API"}
 
 
 # endpoint for live transcription
 @app.post("/live-transcribe/{model_id}/")
 def predict_live(filedata: str = Form(...)):
-    return {"status": "live transcribe is not implemented yet"}
+    return {"status": "please use base64 format to use this API"}

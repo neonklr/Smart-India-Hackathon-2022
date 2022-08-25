@@ -18,7 +18,6 @@ def check_audio_rate(audio_rate):
     return audio_rate == constants.MODEL_AUDIO_RATE
 
 
-
 # ----------------------------- BINARY MODELS RUNNER ----------------------------- #
 
 
@@ -27,13 +26,15 @@ def _load_bin_model(model_path):
     try:
         model = Wav2Vec2ForCTC.from_pretrained(model_path)
     except Exception as e:
-        print("Model Error : ", e)
+        if constants.DEBUGGING:
+            print("Model Error : ", e)
         model = False
 
     try:
         processor = Wav2Vec2Processor.from_pretrained(model_path)
     except Exception as e:
-        print("Processor Error", e)
+        if constants.DEBUGGING:
+            print("Processor Error", e)
         processor = False
 
     return model, processor
@@ -82,14 +83,16 @@ def _load_quant_model(model_path):
     try:
         model = torch.jit.load(model_path)
     except Exception as e:
-        print("Model Error : ", e)
+        if constants.DEBUGGING:
+            print("Model Error : ", e)
         model = False
 
     try:
         processor_path = '/'.join(model_path.split('/')[:-1])
         processor = Wav2Vec2Processor.from_pretrained(processor_path)
     except Exception as e:
-        print("Processor Error", e)
+        if constants.DEBUGGING:
+            print("Processor Error", e)
         processor = False
 
     return model, processor

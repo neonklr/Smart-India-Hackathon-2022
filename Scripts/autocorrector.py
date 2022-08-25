@@ -26,13 +26,13 @@ def get_data():
     data = set(data.keys())
     return data  
 
-def _autocorrect_word(word):
+def _autocorrect_word(word, MAX_WORDS = constants.MAX_WORDS_TO_PREDICT):
     word = word.strip() 
-    predictions = sorted(tree.find(word, constants.MAX_ERROR))[:constants.MAX_WORDS_TO_PREDICT]
+    predictions = sorted(tree.find(word, constants.MAX_ERROR))[:MAX_WORDS]
     # predictions is like:  [ (distance_1: int, word_1: str), (distance_2: int, word_2: str) .. ]   ..can also be empty 
     
     if predictions:
-        return predictions[0][1]  # nearest valid word   
+        return predictions[0][1]   # nearest valid word
     return word 
 
 def autocorrect(text):
