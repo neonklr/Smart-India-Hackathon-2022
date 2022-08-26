@@ -27,7 +27,7 @@ def get_base64_chunk(data):
 
 def remove_cache_file():
     os.remove(constants.CACHE_AUDIO_FILE_PATH + '.wav')
-    os.remove(constants.CACHE_AUDIO_FILE_PATH + '.webm')
+    # os.remove(constants.CACHE_AUDIO_FILE_PATH + '.webm')
 
 
 def get_audio_format(base64_audio_data):
