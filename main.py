@@ -6,6 +6,8 @@ from pydantic import BaseModel
 
 import Scripts.predictor as predictor
 
+import time
+
 
 # ----------------------------- CONFIGURING FASTAPI ------------------------------- #
 
@@ -32,7 +34,6 @@ def read_root():
     return {"status": "Server is up and running"}
 
 
-
 # Pydantic classes for processing incoming requests
 class Filedata(BaseModel):
     filedata: str = Form(...)
@@ -41,13 +42,15 @@ class Filedata(BaseModel):
 # endpoint for audio upload and conversion to text using base64 data from frontend
 @app.post("/predict-base64/")
 def predict_base64_default(filedata: Filedata):
-    return predictor.predict_base64(filedata.filedata)
+    return time_compute(predictor.predict_base64, filedata.filedata)
+    # return predictor.predict_base64(filedata.filedata)
 
 
 # endpoint for audio upload and conversion to text using base64 data from frontend
 @app.post("/predict-base64/{model_id}/")
 def predict_base64(model_id: str, filedata: Filedata):
-    return predictor.predict_base64(filedata.filedata, model_id)
+    return time_compute(predictor.predict_base64, filedata.filedata, model_id)
+    # return predictor.predict_base64(filedata.filedata, model_id)
 
 
 # endpoint for audio upload and conversion to text using array data from frontend
@@ -55,10 +58,21 @@ def predict_base64(model_id: str, filedata: Filedata):
 def predict_array(filedata: str = Form(...)):
     audio_array = eval(filedata)
     assert isinstance(audio_array, list)
-    return {"status" : "please use base64 format to use this API"}
+    return {"status": "please use base64 format to use this API"}
 
 
 # endpoint for live transcription
 @app.post("/live-transcribe/{model_id}/")
 def predict_live(filedata: str = Form(...)):
     return {"status": "please use base64 format to use this API"}
+
+
+# making time computation function
+def time_compute(func, *args):
+    start_time = time.time()
+    response = func(*args)
+    end_time = time.time()
+
+    response["time_elapsed"] = end_time - start_time
+
+    return response
