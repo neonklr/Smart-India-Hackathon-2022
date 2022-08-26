@@ -25,8 +25,12 @@ SANSKRIT_DICT_PATH = "Sanskrit Data/sanskrit_dictionary_ascii.json"
 
 # ------------------------------ PREDICTOR CONSTANTS ----------------------------- #
 
-CACHE_AUDIO_FILE_PATH = "Cache/audio.webm"
-
+CACHE_AUDIO_FILE_PATH = "Cache/audio"
+AUDIO_FORMATS = {
+    "audio/wav": "wav",
+    "audio/webm": "webm"
+}
+FFMPEG_PATH = r"C:\Users\gupta\Desktop\ffmpeg-2022-08-22-git-f23e3ce858-full_build\bin\ffmpeg.exe"
 
 # --------------------------------- OTHER CONSTANTS ------------------------------- #
 

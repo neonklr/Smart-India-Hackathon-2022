@@ -117,7 +117,6 @@ def predict(audio_array, audio_rate, model_id):
             model, processor = _load_quant_model(model_path)
             return _predict_quant_model(model, processor, audio_array, audio_rate)
         except Exception as e:
-            print(e)
             return {"transcribed_text": None, "Error : ": f"Problem loading model or processor or both or problem running model inference (check print output of the server for more info)", "complete_error": str(e)}
 
     elif model_id_seperated[0] == constants.BINARY_MODEL_HEADER:
